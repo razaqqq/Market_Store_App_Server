@@ -1,0 +1,7 @@
+
+
+
+
+
+user = adminMongo
+password = vsH9GLL2kr8kuSeM
