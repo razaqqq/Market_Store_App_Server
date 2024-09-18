@@ -28,6 +28,10 @@ const productSchema = new mongoose.Schema({
         ref: "CategoryCollection"
     }
     ,
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserCollection"
+    },
     createdAt: {
         type: Date,
         default: Date.now()

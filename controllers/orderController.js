@@ -52,7 +52,7 @@ export const createNewOrder = asyncError(
             
             const product = await ProductCollection.findById(orderItems[index].product)
 
-            product.stock =- orderItems[index].quantity
+            product.stock -= orderItems[index].quantity
 
             await product.save()
             

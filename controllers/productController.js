@@ -63,7 +63,9 @@ export const getProductsDetail = asyncError(
 export const createProduct = asyncError(
     async (req, res, next) => {
 
-        const {name,description,category,price,stock} = req.body
+        const {name,description,category,price,stock, createdBy} = req.body
+
+        console.log(`Product COntroller create Product ${createdBy}`)
 
         if (!req.file) return next(new ErrorHandler("Please Add Image", 400))
 
@@ -74,8 +76,10 @@ export const createProduct = asyncError(
             url:myCloudinaryCloud.secure_url
         }
 
+
+
         await ProductCollection.create({
-            name, description, category, price, stock,
+            name, description, category, price, stock, createdBy,
             images: [image]
         })
 
@@ -119,17 +123,37 @@ export const updateProduct = asyncError(
 export const addProductImage = asyncError(
     async (req, res, next) => {
 
-        const product = await ProductCollection.findById(req.params.id)
+        console.log("Product Controller addProductImage Called")
+        console.log("Product Controller addProductImage req, res, next Logging")
+        console.log(req)
+        console.log(res)
+        console.log(next)
 
-        if (!product) return next(new ErrorHandler("Product Not Found", 404))
 
+        const product = await ProductCollection.findById(req.params?.id)
+
+        console.log("Product Controller addProductImage Logging Product")
+        console.log(product)
+
+        if (!product) {
+            return next(new ErrorHandler("Product Not Found", 404))
+        }
+
+        console.log("Product Controller addProductImage req.file")
         console.log(req.file)
 
-        if (!req.file) return next(new ErrorHandler("Please add An Image", 400))
+        if (!req.file) {
+            return next(new ErrorHandler("Please add An Image", 400))
+        }
 
 
         const file = getDataUri(req.file)
-        const myCloudinary = await cloudinary.v2.uploader(file.content)
+
+        console.log("Product Controller AddProduct logging File")
+        console.log(file)
+
+
+        const myCloudinary = await cloudinary.v2.uploader.upload(file.content)
 
         const image = {
             public_id: myCloudinary.public_id,

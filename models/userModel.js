@@ -47,7 +47,12 @@ const userSchema = new mongoose.Schema({
         url:String,
     },
     otp:Number,
-    otp_expire:Date
+    otp_expire:Date,
+    follow: [
+        {
+            type: String
+        }
+    ]
 
 })
 

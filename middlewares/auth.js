@@ -3,15 +3,17 @@ import ErrorHandler from "../utils/errorHandler.js"
 import jwt from "jsonwebtoken"
 import { asyncError } from "./errorMiddleware.js"
 
+// This Function is About To Check 
+// If The User Has Been Login Or Not
 export const isAuthenthicated = asyncError(
     async (req,res,next) => {
-
-        // const token = req.cookies.token
     
         console.log(req.cookies)
     
         const {token} = req.cookies
     
+        console.log(`Is Authenticated Token = ${token}`)
+
         if (!token) return next(new ErrorHandler("Not Loogin", 401))
     
         const decodedData = jwt.verify(token, process.env.JWT_SECRET)
@@ -27,7 +29,8 @@ export const isAuthenthicated = asyncError(
 )
 
 
-
+// This Function is About To 
+// Check User is Admin Or Not
 export const isAdmin = asyncError(
     async (req, res, next) => {
         if (req.user.role !== "admin") 
